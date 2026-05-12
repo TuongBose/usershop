@@ -14,12 +14,16 @@ datasource db {
 
 model User{
   id Int @id @default(autoincrement())
-  email String
+  email String @unique
   hashedPassword String
-  firstName String
-  lastName String
+  firstName String?
+  lastName String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  notes Note[]
+
+  @@map("users")
 }
 
 model Note {
@@ -29,4 +33,9 @@ model Note {
   url String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("notes")
 }
