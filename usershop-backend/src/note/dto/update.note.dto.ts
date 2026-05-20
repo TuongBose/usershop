@@ -1,21 +1,21 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator"
 
-export class InsertNoteDTO{
+export class UpdateNoteDTO{
     @IsString()
-    @IsNotEmpty()
-    title:string
+    @IsOptional()
+    title?:string
 
     @IsString()
     @IsOptional()
     description?:string
 
     @IsString()
-    @IsNotEmpty()
-    url:string
+    @IsOptional()
+    url?:string
 
     constructor(
-        title:string,
-        url:string,
+        title?:string,
+        url?:string,
         description?:string
     ){
         this.title = title;

@@ -97,31 +97,69 @@ describe('App EndToEnd tests', () => {
 
     describe('Note', () => {
       describe('Insert Note', () => {
-        // it('should get detail user', () => {
-        //   return pactum.spec()
-        //     .get(`/users/me`)
-        //     .withHeaders({
-        //       Authorization:'Bearer $S{accessToken}'
-        //     })
-        //     .expectStatus(200)
-        //     .inspect()
-        // })
-      })
-      describe('Get all Notes', () => {
-
-      })
-      describe('Get Note by Id', () => {
-
-      })
-      describe('Delete Note by Id', () => {
-
+        it('insert first note', () => {
+          return pactum.spec()
+            .post(`/notes`)
+            .withHeaders({
+              Authorization: 'Bearer $S{accessToken}'
+            })
+            .withBody({
+              title: 'Note 01',
+              url: 'https://www.youtube.com/watch?v=GHTA143_b-s',
+              description: 'This is a note about NestJS'
+            })
+            .expectStatus(201)
+            .stores('noteId01', 'id')
+            .inspect()
+        })
+        it('insert second note', () => {
+          return pactum.spec()
+            .post(`/notes`)
+            .withHeaders({
+              Authorization: 'Bearer $S{accessToken}'
+            })
+            .withBody({
+              title: 'Note 02',
+              url: 'https://www.youtube.com/watch?v=GHTA143_b-s',
+              description: 'This is a note about NestJS'
+            })
+            .expectStatus(201)
+            .stores('noteId02', 'id')
+            .inspect()
+        })
+        it('get Note by id', () => {
+          return pactum.spec()
+            .get(`/notes`)
+            .withHeaders({
+              Authorization: 'Bearer $S{accessToken}'
+            })
+            .withPathParams('id', '$S{noteId01}')
+            .expectStatus(200)
+        })
+        it('get All Notes', () => {
+          return pactum.spec()
+            .get(`/notes`)
+            .withHeaders({
+              Authorization: 'Bearer $S{accessToken}'
+            })
+            .inspect()
+            .expectStatus(200)
+        })
+        it('delete Note by id', () => {
+          return pactum.spec()
+            .delete(`/notes/{id}`)
+            .withHeaders({
+              Authorization: 'Bearer $S{accessToken}'
+            })
+            .withPathParams('id', '$S{noteId01}')
+            .expectStatus(200)
+        })
       })
     })
-  })
 
-  afterAll(async () => {
-    app.close()
+    afterAll(async () => {
+      app.close()
+    })
+    it.todo('should PASS');
   })
-  it.todo('should PASS');
 })
-
